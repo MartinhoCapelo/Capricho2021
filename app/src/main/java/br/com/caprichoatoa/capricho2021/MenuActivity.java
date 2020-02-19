@@ -1,5 +1,7 @@
 package br.com.caprichoatoa.capricho2021;
 
+import br.com.caprichoatoa.bancodados.Conexao;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -22,7 +24,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.caprichoatoa.bancodados.Conexao;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -38,6 +39,7 @@ public class MenuActivity extends AppCompatActivity {
     static String usuarioConexao;
     static String senhaConexao;
     static List<String> opcoes = new ArrayList<>();
+    static ArrayAdapter<String> adapter;
 
     Button btnMotivacional;
 
@@ -67,6 +69,8 @@ public class MenuActivity extends AppCompatActivity {
         usuarioConexao = prefs.getString("usuario", "");
         senhaConexao = prefs.getString("senha", "");
 
+        adapter = new ArrayAdapter<>(this, R.layout.list_adapter, android.R.id.text1, opcoes);
+
         lista = findViewById(R.id.lst_menu);
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -95,6 +99,8 @@ public class MenuActivity extends AppCompatActivity {
                         break;
 
                 }
+
+// TODO: Implementar
 ////                if (i != null) {
 ////                    i.putExtra("usuario", usuario);
 ////                    i.putExtra("coduser", codUser);
@@ -116,12 +122,9 @@ public class MenuActivity extends AppCompatActivity {
         RecuperaOpcoesMenu tarefa2 = new RecuperaOpcoesMenu();
         tarefa2.execute();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.list_adapter, android.R.id.text1, opcoes);
-        lista.setAdapter(adapter);
-
     }
 
-    private static class RecuperaOpcoesMenu extends AsyncTask<String, Void, List<String>> {
+    private class RecuperaOpcoesMenu extends AsyncTask<String, Void, List<String>> {
 
         @Override
         protected List<String> doInBackground(String... strings) {
@@ -152,7 +155,10 @@ public class MenuActivity extends AppCompatActivity {
             opcoes.clear();
             opcoes.addAll(strings);
 
+            lista.setAdapter(adapter);
+
             super.onPostExecute(strings);
+
         }
     }
 
@@ -190,7 +196,3 @@ public class MenuActivity extends AppCompatActivity {
     }
 
 }
-
-
-
-// ********************************************************
