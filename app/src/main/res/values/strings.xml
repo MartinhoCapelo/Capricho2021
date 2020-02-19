@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Capricho2021</string>
+    <string name="action_settings">Settings</string>
+    <string name="titulo">Capricho 2021</string>
+    <string name="usuario">Usuário:</string>
+    <string name="senha">Senha:</string>
+    <string name="login">Login</string>
+    <string name="nome_fornecedor">Nome do Fornecedor</string>
+    <string name="nome_avaliador">Nome do Avaliador</string>
+    <string name="numero_lote">00000</string>
+    <string name="quantidade">Quantidade:</string>
+    <string name="objeto">Objeto</string>
+    <string name="um">1</string>
+    <string name="zero">0</string>
+    <string name="lote">Lote: </string>
+    <string name="excluir">Excluir</string>
+    <string name="observacao">Observações:</string>
+    <string name="verificar">Verificar</string>
+    <string name="title_activity_seleciona_lote">SelecionaLoteActivity</string>
+    <string name="title_activity_avalia_lote">AvaliaLoteActivity</string>
+    <string name="banco_dados">Banco de dados</string>
+    <string name="servidor_nao_encontrado">Servidor não encontrado</string>
+    <string name="informacoes_incorretas">Informações incorretas</string>
+    <string name="atualize_versão_aplicativo">Atualize a versão deste app</string>
+    <string name="acesso_autorizado">Acesso autorizado</string>
+    <string name="servidor">Servidor</string>
+
+
+</resources>
