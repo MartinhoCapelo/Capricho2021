@@ -95,19 +95,17 @@ public class MenuActivity extends AppCompatActivity {
                         break;
                     case "Cadastro de Clientes":
                         Toast.makeText(uiContext, "CADASTRO DE CLIENTES", Toast.LENGTH_LONG).show();
-
+                        i = new Intent(uiContext, CadastroClientesActivity.class);
                         break;
 
                 }
-
-// TODO: Implementar
-////                if (i != null) {
-////                    i.putExtra("usuario", usuario);
-////                    i.putExtra("coduser", codUser);
-////                    i.putExtra("tipo", opcao);
-////                    i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-////                    startActivity(i);
-////                }
+                if (i != null) {
+                    i.putExtra("usuario", usuario);
+                    i.putExtra("coduser", codUser);
+                    i.putExtra("tipo", opcao);
+                    i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    startActivity(i);
+                }
             }
         });
     }
