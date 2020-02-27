@@ -1,11 +1,10 @@
 package br.com.caprichoatoa.bancodados;
 
 import android.util.Log;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class Conexao {
+public class ConexaoServidor {
 
     public static Connection open(String server, String database, String username, String password) {
 
@@ -26,7 +25,7 @@ public class Conexao {
         try {
             c.close();
         } catch (Exception e) {
-            Log.d("Erro", e.getMessage());
+            Log.e("Erro", "Erro: " + e.getMessage());
         }
     }
 }

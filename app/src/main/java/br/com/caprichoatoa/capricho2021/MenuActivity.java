@@ -1,7 +1,5 @@
 package br.com.caprichoatoa.capricho2021;
 
-import br.com.caprichoatoa.bancodados.Conexao;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -24,50 +22,56 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.caprichoatoa.bancodados.ConexaoServidor;
+
 
 public class MenuActivity extends AppCompatActivity {
 
-    Context uiContext;
+    Context contextoMenu;
 
     static int codUser;
     String usuario;
     ListView lista;
 
-    SharedPreferences prefs;
-    static String servidorConexao;
-    static String bancoConexao;
-    static String usuarioConexao;
-    static String senhaConexao;
     static List<String> opcoes = new ArrayList<>();
     static ArrayAdapter<String> adapter;
 
     Button btnMotivacional;
+
+    SharedPreferences prefs;
+    String servidorConexao;
+    String bancoConexao;
+    String usuarioConexao;
+    String senhaConexao;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        uiContext = this;
+        contextoMenu = this;
 
         Intent i = getIntent();
         usuario = i.getStringExtra("usuario");
         codUser = i.getIntExtra("coduser", 0);
 
-        // TODO - RETIRAR... SOMENTE PARA DESENVOLVIMENTO
-        // *********************************
-        usuario="MRTINHO";
-        codUser=98;
-        // *********************************
 
-        btnMotivacional = findViewById(R.id.btnMotivacional);
-
-        prefs = uiContext.getSharedPreferences(".config", Context.MODE_PRIVATE);
+        prefs = this.getSharedPreferences(".config", Context.MODE_PRIVATE);
 
         servidorConexao = prefs.getString("servidor", "");
         bancoConexao = prefs.getString("bancoDados", "");
         usuarioConexao = prefs.getString("usuario", "");
         senhaConexao = prefs.getString("senha", "");
+
+
+//        // TODO - RETIRAR... SOMENTE PARA DESENVOLVIMENTO
+//        // *********************************
+////        usuario="MRTINHO";
+////        codUser=98;
+//        // *********************************
+
+        btnMotivacional = findViewById(R.id.btnMotivacional);
 
         adapter = new ArrayAdapter<>(this, R.layout.list_adapter, android.R.id.text1, opcoes);
 
@@ -85,17 +89,17 @@ public class MenuActivity extends AppCompatActivity {
                 switch (opcao) {
                     case "Presencial":
                     case "Futura":
-                        Toast.makeText(uiContext, "FUTURA", Toast.LENGTH_LONG).show();
+                        Toast.makeText(contextoMenu, "FUTURA", Toast.LENGTH_LONG).show();
 //                        i = new Intent(uiContext, SelecionaLoteActivity.class);
                         break;
 
                     case "Classificação":
-                        Toast.makeText(uiContext, "PRESENCIAL", Toast.LENGTH_LONG).show();
+                        Toast.makeText(contextoMenu, "PRESENCIAL", Toast.LENGTH_LONG).show();
 //                        i = new Intent(uiContext, SelecionaLoteClassificacaoActivity.class);
                         break;
                     case "Cadastro de Clientes":
-                        Toast.makeText(uiContext, "CADASTRO DE CLIENTES", Toast.LENGTH_LONG).show();
-                        i = new Intent(uiContext, CadastroClientesActivity.class);
+                        Toast.makeText(contextoMenu, "CADASTRO DE CLIENTES", Toast.LENGTH_LONG).show();
+                        i = new Intent(contextoMenu, CadastroClientesActivity.class);
                         break;
 
                 }
@@ -133,14 +137,12 @@ public class MenuActivity extends AppCompatActivity {
 
                 String strSQL = " EXEC app_OpcoesMenu " + codUser;
 
-                Connection DbConn = Conexao.open(servidorConexao, bancoConexao, usuarioConexao, senhaConexao);
+                Connection DbConn = ConexaoServidor.open(servidorConexao, bancoConexao, usuarioConexao, senhaConexao);
                 Statement stmt = DbConn.createStatement();
-                ResultSet resultSet = stmt.executeQuery(strSQL);
-
-                while (resultSet.next()) {
-                    retorno.add(resultSet.getString("Descricao"));
+                ResultSet resultado = stmt.executeQuery(strSQL);
+                while (resultado.next()) {
+                    retorno.add(resultado.getString("Descricao"));
                 }
-                Conexao.close(DbConn);
 
             } catch (Exception e) {
                 System.out.print(e.getMessage());
@@ -156,7 +158,6 @@ public class MenuActivity extends AppCompatActivity {
             lista.setAdapter(adapter);
 
             super.onPostExecute(strings);
-
         }
     }
 
@@ -171,17 +172,15 @@ public class MenuActivity extends AppCompatActivity {
 
                 String strSQL = " EXEC FraseMotivacional ";
 
-                Connection DbConn = Conexao.open(servidorConexao, bancoConexao, usuarioConexao, senhaConexao);
+                Connection DbConn = ConexaoServidor.open(servidorConexao, bancoConexao, usuarioConexao, senhaConexao);
                 Statement stmt = DbConn.createStatement();
-                ResultSet reset = stmt.executeQuery(strSQL);
-                while (reset.next()) {
-                    retorno = reset.getString("frase");
+                ResultSet resultado = stmt.executeQuery(strSQL);
+                while (resultado.next()) {
+                    retorno = resultado.getString("frase");
                 }
 
-                Conexao.close(DbConn);
-
             } catch (Exception e) {
-                System.out.print(e.getMessage());
+                System.out.println(e.getMessage());
             }
 
             return retorno;
@@ -192,5 +191,4 @@ public class MenuActivity extends AppCompatActivity {
             btnMotivacional.setText(frase);
         }
     }
-
 }

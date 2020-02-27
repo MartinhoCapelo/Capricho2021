@@ -12,14 +12,7 @@ public abstract class FormataTexto {
     public static final String FORMAT_DATE = "##/##/####";
     public static final String FORMAT_HOUR = "##:##";
 
-    /**
-     * Método que deve ser chamado para realizar a formatação
-     *
-     * @param ediTxt
-     * @param mask
-     * @return
-     */
-    public static TextWatcher mask(final EditText ediTxt, final String mask) {
+    public static TextWatcher Formata(final EditText ediTxt, final String mask) {
         return new TextWatcher() {
             boolean isUpdating;
             String old = "";

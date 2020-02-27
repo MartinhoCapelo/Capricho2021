@@ -1,42 +1,37 @@
 package br.com.caprichoatoa.capricho2021;
 
+import br.com.caprichoatoa.bancodados.ConexaoServidor;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import android.content.pm.PackageManager;
-import android.os.AsyncTask;
-
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Locale;
 
-import br.com.caprichoatoa.bancodados.Conexao;
-
 public class PrincipalActivity extends AppCompatActivity {
+
+    Context contexto;
 
     EditText edtUsuario;
     EditText edtSenha;
     TextView txtResultado;
     Button btnLogin;
-    Context uiContext;
 
     public int contadorConfiguracao = 0;
 
@@ -51,13 +46,15 @@ public class PrincipalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
 
-        uiContext = this;
-        prefs = uiContext.getSharedPreferences(".config", Context.MODE_PRIVATE);
+        contexto = this;
+
+        prefs = this.getSharedPreferences(".config", Context.MODE_PRIVATE);
 
         servidorConexao = prefs.getString("servidor", "");
         bancoConexao = prefs.getString("bancoDados", "");
         usuarioConexao = prefs.getString("usuario", "");
         senhaConexao = prefs.getString("senha", "");
+
 
         edtUsuario = findViewById(R.id.edtUsuario);
         edtSenha = findViewById(R.id.edtSenha);
@@ -175,14 +172,14 @@ public class PrincipalActivity extends AppCompatActivity {
                 versao = Double.parseDouble(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
                 String strSQL = " EXEC app_ValidaUsuario '" + usuario + "', '" + senha + "', " + versao + " \n";
 
-                Connection DbConn = Conexao.open(servidorConexao, bancoConexao, usuarioConexao, senhaConexao);
+                Connection DbConn = ConexaoServidor.open(servidorConexao, bancoConexao, usuarioConexao, senhaConexao);
                 Statement stmt = DbConn.createStatement();
                 ResultSet reset = stmt.executeQuery(strSQL);
                 while (reset.next()) {
                     retorno = Integer.parseInt(reset.getString("coduser"));
                 }
 
-                Conexao.close(DbConn);
+                ConexaoServidor.close(DbConn);
 
             } catch (Exception e) {
                 System.out.print(e.getMessage());
@@ -202,16 +199,17 @@ public class PrincipalActivity extends AppCompatActivity {
                 txtResultado.setText(R.string.acesso_autorizado);
                 String usuario = edtUsuario.getText().toString().trim().toUpperCase(Locale.getDefault());
 
-                Toast.makeText(uiContext, "Acesso autorizado", Toast.LENGTH_LONG).show();
+                System.out.println("AUTORIZADO" + usuario);
 
-
-//                //TODO
-//                //IMPLEMENTAR A TELA DE MENU INICIAL
-                Intent i = new Intent(uiContext, MenuActivity.class);
+                Intent i = new Intent(contexto, MenuActivity.class);
                 i.putExtra("usuario", usuario);
                 i.putExtra("coduser", codUser);
                 startActivity(i);
             }
         }
     }
+
+
+
 }
+
