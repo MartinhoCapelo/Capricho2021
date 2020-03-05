@@ -30,7 +30,7 @@
         android:fontFamily="cursive"
         android:text="@string/titulo_cadastro_clientes"
         android:textColor="@color/colorAccent"
-        android:textSize="36sp"
+        android:textSize="@dimen/tamanho_texto_cadastro"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/logo_LoginActivity2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,15 +40,21 @@
         app:layout_constraintVertical_bias="0.577" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dados_pessoais"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+
+        android:background="@color/amarelo_claro"
+
+        app:layout_constraintBottom_toTopOf="@+id/btnVerificar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logo_LoginActivity2">
+        app:layout_constraintTop_toBottomOf="@+id/logo_LoginActivity2"
+        app:layout_constraintVertical_bias="0.0">
 
         <EditText
-            android:id="@+id/txtCPF"
+            android:id="@+id/edtCPF"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -56,11 +62,359 @@
             android:hint="@string/cpf_hint"
             android:inputType="number"
             android:textAlignment="center"
-            android:textSize="36sp"
+            android:textSize="@dimen/tamanho_texto_cadastro"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+
+            />
+
+        <EditText
+            android:id="@+id/edtNome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+
+            android:ems="10"
+            android:hint="@string/nome_completo"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textSize="@dimen/tamanho_texto_cadastro"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtCPF"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Spinner
+            android:id="@+id/spnGenero"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:ems="50"
+            android:hint="@string/genero"
+            android:inputType="textAutoComplete"
+
+            android:spinnerMode="dropdown"
+            android:text="@string/genero"
+            android:textAlignment="center"
+
+            android:textSize="@dimen/tamanho_texto_cadastro"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtNome"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dados_contato"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:background="@color/azul_claro"
+        app:layout_constraintBottom_toTopOf="@+id/btnVerificar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dados_pessoais"
+        app:layout_constraintVertical_bias="0.0">
+
+
+        <EditText
+            android:id="@+id/edtFone1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:ems="10"
+            android:hint="@string/celular_ou_telefone"
+            android:inputType="textPersonName"
+
+            android:textAlignment="center"
+            android:textSize="@dimen/tamanho_texto_cadastro"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/edtFone2"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/edtFone2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:ems="10"
+            android:hint="@string/celular_ou_telefone"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textSize="@dimen/tamanho_texto_cadastro"
+
+            app:layout_constraintBottom_toBottomOf="@+id/edtFone1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/edtFone1"
+            app:layout_constraintTop_toTopOf="@+id/edtFone1"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/edtEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:textAlignment="center"
+            android:textSize="@dimen/tamanho_texto_cadastro"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtFone1"
+            app:layout_constraintVertical_bias="0.0" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dados_endereco"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:background="@color/wl_blue"
+        app:layout_constraintBottom_toTopOf="@+id/btnVerificar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dados_contato"
+        app:layout_constraintVertical_bias="0.0">
+
+
+        <EditText
+            android:id="@+id/edtEndereco"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:ems="10"
+            android:hint="@string/endereco"
+            android:inputType="textPersonName"
+
+            android:textAlignment="center"
+            android:textSize="@dimen/tamanho_texto_cadastro"
+            app:layout_constraintBottom_toTopOf="@+id/edtComplemento"
+            app:layout_constraintEnd_toStartOf="@+id/edtNumero"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edtNumero"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:hint="@string/numero"
+
+            android:inputType="number"
+
+            android:textAlignment="center"
+            android:textSize="@dimen/tamanho_texto_cadastro"
+
+            app:layout_constraintBottom_toBottomOf="@id/edtEndereco"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <EditText
+            android:id="@+id/edtComplemento"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:ems="10"
+            android:hint="@string/complemento"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+
+            android:textSize="@dimen/tamanho_texto_cadastro"
+            app:layout_constraintBottom_toTopOf="@+id/edtBairro"
+            app:layout_constraintEnd_toStartOf="@+id/edtBairro"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtEndereco" />
+
+        <EditText
+            android:id="@+id/edtBairro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/bairro"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textSize="@dimen/tamanho_texto_cadastro"
+
+            app:layout_constraintBottom_toBottomOf="@id/edtComplemento"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <EditText
+            android:id="@+id/edtCidade"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/cidade"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textSize="@dimen/tamanho_texto_cadastro"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/edtUF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtComplemento" />
+
+
+        <EditText
+            android:id="@+id/edtUF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:ems="10"
+            android:hint="@string/estado"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textSize="@dimen/tamanho_texto_cadastro"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtComplemento" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dados_complementares"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+
+        android:background="@color/RESERVA_claro"
+        app:layout_constraintBottom_toTopOf="@+id/btnVerificar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dados_endereco">
+
+
+        <EditText
+            android:id="@+id/edtFacebook"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:ems="10"
+            android:hint="Facebook"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textSize="@dimen/tamanho_texto_cadastro"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/edtInstagram"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:hint="Instagram"
+
+            android:inputType="text"
+
+            android:textAlignment="center"
+            android:textSize="@dimen/tamanho_texto_cadastro"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edtFacebook"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+        <EditText
+            android:id="@+id/edtPinTerest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:ems="10"
+            android:hint="Pinterest"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+
+            android:textSize="@dimen/tamanho_texto_cadastro"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edtInstagram"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/edtTamCamiseta"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Tam. Camiseta"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textSize="@dimen/tamanho_texto_cadastro"
+
+            app:layout_constraintEnd_toStartOf="@+id/edtTamCalca"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtPinTerest" />
+
+
+        <EditText
+            android:id="@+id/edtTamCalca"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Tam. Calça"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textSize="@dimen/tamanho_texto_cadastro"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtPinTerest"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/edtTamCalcado"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+
+            android:ems="10"
+            android:hint="Tam. Calçado"
+            android:inputType="textPersonName"
+            android:textAlignment="center"
+            android:textSize="@dimen/tamanho_texto_cadastro"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/edtTamCalca"
+            app:layout_constraintTop_toBottomOf="@+id/edtPinTerest"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btnVerificar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/verificar"
+        android:textSize="@dimen/tamanho_texto_cadastro"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

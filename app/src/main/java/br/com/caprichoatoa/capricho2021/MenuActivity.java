@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -28,6 +28,7 @@ import br.com.caprichoatoa.bancodados.ConexaoServidor;
 public class MenuActivity extends AppCompatActivity {
 
     Context contextoMenu;
+    ConexaoServidor cs;
 
     static int codUser;
     String usuario;
@@ -38,37 +39,22 @@ public class MenuActivity extends AppCompatActivity {
 
     Button btnMotivacional;
 
-    SharedPreferences prefs;
-    String servidorConexao;
-    String bancoConexao;
-    String usuarioConexao;
-    String senhaConexao;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
         contextoMenu = this;
+        cs = new ConexaoServidor(contextoMenu);
 
         Intent i = getIntent();
         usuario = i.getStringExtra("usuario");
         codUser = i.getIntExtra("coduser", 0);
 
-
-        prefs = this.getSharedPreferences(".config", Context.MODE_PRIVATE);
-
-        servidorConexao = prefs.getString("servidor", "");
-        bancoConexao = prefs.getString("bancoDados", "");
-        usuarioConexao = prefs.getString("usuario", "");
-        senhaConexao = prefs.getString("senha", "");
-
-
 //        // TODO - RETIRAR... SOMENTE PARA DESENVOLVIMENTO
 //        // *********************************
-////        usuario="MRTINHO";
-////        codUser=98;
+        usuario="MRTINHO";
+        codUser=98;
 //        // *********************************
 
         btnMotivacional = findViewById(R.id.btnMotivacional);
@@ -83,7 +69,7 @@ public class MenuActivity extends AppCompatActivity {
 
                 ViewGroup layout = (ViewGroup) view;
                 TextView t = (TextView) layout.getChildAt(0);
-              String opcao = t.getText().toString();
+                String opcao = t.getText().toString();
                 Intent i = null;
 
                 switch (opcao) {
@@ -137,12 +123,16 @@ public class MenuActivity extends AppCompatActivity {
 
                 String strSQL = " EXEC app_OpcoesMenu " + codUser;
 
-                Connection DbConn = ConexaoServidor.open(servidorConexao, bancoConexao, usuarioConexao, senhaConexao);
+
+                Connection DbConn = cs.open();
+
                 Statement stmt = DbConn.createStatement();
                 ResultSet resultado = stmt.executeQuery(strSQL);
                 while (resultado.next()) {
                     retorno.add(resultado.getString("Descricao"));
                 }
+
+                cs.close();
 
             } catch (Exception e) {
                 System.out.print(e.getMessage());
@@ -171,17 +161,17 @@ public class MenuActivity extends AppCompatActivity {
             try {
 
                 String strSQL = " EXEC FraseMotivacional ";
-
-                Connection DbConn = ConexaoServidor.open(servidorConexao, bancoConexao, usuarioConexao, senhaConexao);
+                Connection DbConn = cs.open();
                 Statement stmt = DbConn.createStatement();
                 ResultSet resultado = stmt.executeQuery(strSQL);
                 while (resultado.next()) {
                     retorno = resultado.getString("frase");
                 }
-
+                cs.close();
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
+
 
             return retorno;
         }

@@ -1,31 +1,50 @@
 package br.com.caprichoatoa.bancodados;
 
-import android.util.Log;
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class ConexaoServidor {
 
-    public static Connection open(String server, String database, String username, String password) {
+    private String servidor;
+    private String banco;
+    private String usuario;
+    private String senha;
+    private Connection conexao;
 
-        Connection retorno = null;
+    public ConexaoServidor(Context contexto) {
+
+        SharedPreferences prefs = contexto.getSharedPreferences(".config", Context.MODE_PRIVATE);
+
+        servidor = prefs.getString("servidor", "");
+        banco = prefs.getString("bancoDados", "");
+        usuario = prefs.getString("usuario", "");
+        senha = prefs.getString("senha", "");
+
+    }
+
+    public Connection open() {
+
+        conexao = null;
 
         try {
 
             Class.forName("net.sourceforge.jtds.jdbc.Driver").newInstance();
-            retorno = DriverManager.getConnection("jdbc:jtds:sqlserver://" + server + ":1433/" + database, username, password);
+            conexao = DriverManager.getConnection("jdbc:jtds:sqlserver://" + servidor + ":1433/" + banco, usuario, senha);
 
         } catch (Exception e) {
-            Log.e("Erro", "Erro: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
-        return retorno;
+        return conexao;
     }
 
-    public static void close(Connection c) {
+    public void close() {
         try {
-            c.close();
+            conexao.close();
         } catch (Exception e) {
-            Log.e("Erro", "Erro: " + e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 }

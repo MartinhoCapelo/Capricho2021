@@ -27,7 +27,21 @@
 
     <string name="titulo_cadastro_clientes">Cadastro de Clientes</string>
     <string name="cpf_hint">CPF do cliente</string>
+    <string name="nome_completo">Nome completo</string>
+    <string name="genero">Genero</string>
+    <string name="celular_ou_telefone">Celular ou telefone</string>
+    <string name="email">e-mail</string>
+    <string name="endereco">Endereco</string>
+    <string name="numero">Número</string>
+    <string name="bairro">Bairro</string>
+    <string name="complemento">Complemento</string>
+    <string name="cidade">Cidade</string>
+    <string name="estado">UF</string>
 
-
+    <string-array name="generos">
+        <item>Feminino</item>
+        <item>Masculino</item>
+        <item>Indefinido</item>
+    </string-array>
 
 </resources>

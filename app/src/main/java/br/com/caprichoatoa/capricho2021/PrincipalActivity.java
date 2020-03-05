@@ -27,6 +27,7 @@ import java.util.Locale;
 public class PrincipalActivity extends AppCompatActivity {
 
     Context contexto;
+    ConexaoServidor cs;
 
     EditText edtUsuario;
     EditText edtSenha;
@@ -55,7 +56,6 @@ public class PrincipalActivity extends AppCompatActivity {
         usuarioConexao = prefs.getString("usuario", "");
         senhaConexao = prefs.getString("senha", "");
 
-
         edtUsuario = findViewById(R.id.edtUsuario);
         edtSenha = findViewById(R.id.edtSenha);
         txtResultado = findViewById(R.id.txtResultado);
@@ -70,6 +70,8 @@ public class PrincipalActivity extends AppCompatActivity {
 
             }
         });
+
+        cs = new ConexaoServidor(contexto);
 
         ImageView imagem = findViewById(R.id.logo_LoginActivity);
         imagem.setOnClickListener(new View.OnClickListener() {
@@ -172,14 +174,13 @@ public class PrincipalActivity extends AppCompatActivity {
                 versao = Double.parseDouble(getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
                 String strSQL = " EXEC app_ValidaUsuario '" + usuario + "', '" + senha + "', " + versao + " \n";
 
-                Connection DbConn = ConexaoServidor.open(servidorConexao, bancoConexao, usuarioConexao, senhaConexao);
+                Connection DbConn = cs.open();
                 Statement stmt = DbConn.createStatement();
                 ResultSet reset = stmt.executeQuery(strSQL);
                 while (reset.next()) {
                     retorno = Integer.parseInt(reset.getString("coduser"));
                 }
-
-                ConexaoServidor.close(DbConn);
+                cs.close();
 
             } catch (Exception e) {
                 System.out.print(e.getMessage());
@@ -208,8 +209,5 @@ public class PrincipalActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
 }
 

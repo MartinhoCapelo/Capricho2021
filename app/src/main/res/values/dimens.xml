@@ -1,3 +1,4 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="tamanho_texto_cadastro">26sp</dimen>
 </resources>
