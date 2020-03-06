@@ -46,7 +46,7 @@
 
         android:background="@color/amarelo_claro"
 
-        app:layout_constraintBottom_toTopOf="@+id/btnVerificar"
+        app:layout_constraintBottom_toTopOf="@+id/btnSalvar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -120,7 +120,7 @@
         android:layout_height="wrap_content"
 
         android:background="@color/azul_claro"
-        app:layout_constraintBottom_toTopOf="@+id/btnVerificar"
+        app:layout_constraintBottom_toTopOf="@+id/btnSalvar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -186,7 +186,7 @@
         android:layout_height="wrap_content"
 
         android:background="@color/wl_blue"
-        app:layout_constraintBottom_toTopOf="@+id/btnVerificar"
+        app:layout_constraintBottom_toTopOf="@+id/btnSalvar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -294,7 +294,7 @@
 
 
         android:background="@color/RESERVA_claro"
-        app:layout_constraintBottom_toTopOf="@+id/btnVerificar"
+        app:layout_constraintBottom_toTopOf="@+id/btnSalvar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dados_endereco">
@@ -404,10 +404,10 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/btnVerificar"
+        android:id="@+id/btnSalvar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/verificar"
+        android:text="Salvar"
         android:textSize="@dimen/tamanho_texto_cadastro"
 
         app:layout_constraintBottom_toBottomOf="parent"

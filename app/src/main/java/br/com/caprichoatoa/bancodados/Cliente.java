@@ -130,6 +130,144 @@ public class Cliente {
         }
     }
 
+    public boolean UpsertCliente(Connection dbConn) {
+        // Insert ou Update no cadastro do cliente conforme o caso
+
+        StringBuilder strSql = new StringBuilder("EXEC sp_UpsertCliente ");
+        strSql.append(getDocumento());
+        strSql.append(",");
+        strSql.append(getNome());
+        strSql.append(",");
+        strSql.append(getEndereco());
+        strSql.append(",");
+        strSql.append(getNumero());
+        strSql.append(",");
+        strSql.append(getComplemento());
+        strSql.append(",");
+        strSql.append(getBairro());
+        strSql.append(",");
+        strSql.append(getCidade());
+        strSql.append(",");
+        strSql.append(getUF());
+        strSql.append(",");
+        strSql.append(getCEP());
+        strSql.append(",");
+        strSql.append(getEmail());
+        strSql.append(",");
+        strSql.append(getSexo());
+        strSql.append(",");
+        strSql.append(getTipo());
+        strSql.append(",");
+        strSql.append(getFlagFornecedor());
+        strSql.append(",");
+        strSql.append(getFisicaJuridica());
+        strSql.append(",");
+        strSql.append(getNascimento());
+        strSql.append(",");
+        strSql.append(getCadastro());
+        strSql.append(",");
+        strSql.append(getMeioCadastro());
+        strSql.append(",");
+        strSql.append(getInscEstadual());
+        strSql.append(",");
+        strSql.append(getDDDCel());
+        strSql.append(",");
+        strSql.append(getCelular());
+        strSql.append(",");
+        strSql.append(getDDDFixo());
+        strSql.append(",");
+        strSql.append(getTelefoneFixo());
+        strSql.append(",");
+        strSql.append(getConheceuLoja());
+        strSql.append(",");
+        strSql.append(getAtendente());
+        strSql.append(",");
+        strSql.append(getCodVitrine());
+        strSql.append(",");
+        strSql.append(getPergunta());
+        strSql.append(",");
+        strSql.append(getFacebook());
+        strSql.append(",");
+        strSql.append(getInstagram());
+        strSql.append(",");
+        strSql.append(getPinterest());
+        strSql.append(",");
+        strSql.append(getTamCamiseta());
+        strSql.append(",");
+        strSql.append(getTamCalca());
+        strSql.append(",");
+        strSql.append(getTamCalcado());
+        strSql.append(",");
+
+        String SituacaoCadastro;     // controle do app
+
+        try {
+
+            Statement stmt = dbConn.createStatement();
+            ResultSet resultado = stmt.executeQuery(strSql.toString());
+
+            while (resultado.next()) {
+                //alimentar o objeto
+
+                String retorno = resultado.getString(0).trim();
+
+                if (Long.toString(getDocumento()).equals(retorno)){
+                  return true;
+                } else {
+                    return false;
+                }
+            }
+        } catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
+        return false;
+
+    }
+
+
+    public String getCelularFormatado() {
+        String prefixo = Integer.toString(getDDDCel());
+        if (getDDDCel() < 10) {
+            prefixo = "";
+        }
+        String numero = Long.toString(getCelular());
+
+        return formataCelular(prefixo, numero);
+    }
+
+    public String getFixoFormatado() {
+        String prefixo = Integer.toString(getDDDFixo());
+        if (getDDDFixo() < 10) {
+            prefixo = "";
+        }
+        String numero = Long.toString(getTelefoneFixo());
+        return formataCelular(prefixo, numero);
+    }
+
+    public String formataCelular(String prefixo, String numero) {
+        String retorno;
+
+        if (prefixo.length() != 2) {
+            prefixo = "11";
+        }
+        retorno = "(" + prefixo + ") ";
+
+        switch (numero.length()) {
+            default:
+                retorno = "";
+                break;
+            case 8:
+                retorno = retorno + numero.substring(0, 4) + "-" + numero.substring(4, 8);
+                break;
+            case 9:
+                retorno = retorno + numero.substring(0, 5) + "-" + numero.substring(5, 9);
+                break;
+        }
+
+        return retorno;
+    }
+
     public String getNome() {
         return Nome;
     }
@@ -166,7 +304,7 @@ public class Cliente {
         return Numero;
     }
 
-    private void setNumero(String numero) {
+    public void setNumero(String numero) {
         Numero = numero;
     }
 
@@ -408,50 +546,6 @@ public class Cliente {
 
     public void setSituacaoCadastro(String situacaoCadastro) {
         SituacaoCadastro = situacaoCadastro;
-    }
-
-    public String getCelularFormatado()
-    {
-        String prefixo = Integer.toString(getDDDCel());
-        if (getDDDCel() < 10) {
-            prefixo = "";
-        }
-        String numero = Long.toString(getCelular());
-
-        return formataCelular(prefixo, numero);
-    }
-
-    public String getFixoFormatado()
-    {
-        String prefixo = Integer.toString(getDDDFixo());
-        if (getDDDFixo() < 10) {
-            prefixo = "";
-        }
-        String numero = Long.toString(getTelefoneFixo());
-        return formataCelular(prefixo, numero);
-    }
-
-    public String formataCelular(String prefixo, String numero) {
-        String retorno;
-
-        if (prefixo.length() != 2) {
-            prefixo = "11";
-        }
-        retorno = "(" + prefixo + ") ";
-
-        switch (numero.length()) {
-            default:
-                retorno = "";
-                break;
-            case 8:
-                retorno = retorno + numero.substring(0, 4) + "-" + numero.substring(4, 8);
-                break;
-            case 9:
-                retorno = retorno + numero.substring(0, 5) + "-" + numero.substring(5, 9);
-                break;
-        }
-
-        return retorno;
     }
 
 

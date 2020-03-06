@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,6 +18,7 @@ import java.sql.Connection;
 import br.com.caprichoatoa.bancodados.Cliente;
 import br.com.caprichoatoa.bancodados.ConexaoServidor;
 import br.com.caprichoatoa.utilidades.FormataTexto;
+import br.com.caprichoatoa.utilidades.ValidaCPF;
 
 
 public class CadastroClientesActivity extends AppCompatActivity {
@@ -23,8 +26,25 @@ public class CadastroClientesActivity extends AppCompatActivity {
     Context contextoCadastro;
     ConexaoServidor cs;
     Cliente cliente;
+
     EditText edtCPF;
+    EditText edtNome;
     Spinner spnGenero;
+    EditText edtFone1;
+    EditText edtFone2;
+    EditText edtEmail;
+    EditText edtEndereco;
+    EditText edtNumero;
+    EditText edtComplemento;
+    EditText edtCidade;
+    EditText edtUF;
+    EditText edtBairro;
+    EditText edtFacebook;
+    EditText edtInstagram;
+    EditText edtPinterest;
+    EditText edtTamCamiseta;
+    EditText edtTamCalca;
+    EditText edtTamCalcado;
 
     static final int FEMININO = 1;
     static final int MASCULINO = 2;
@@ -42,37 +62,105 @@ public class CadastroClientesActivity extends AppCompatActivity {
 
         edtCPF = findViewById(R.id.edtCPF);
         edtCPF.addTextChangedListener(FormataTexto.Formata(edtCPF, FormataTexto.FORMAT_CPF));
+        edtCPF.addTextChangedListener(VerificaCPF());
 
+        edtNome = findViewById(R.id.edtNome);
         spnGenero = findViewById(R.id.spnGenero);
+        edtFone1 = findViewById(R.id.edtFone1);
+        edtFone2 = findViewById(R.id.edtFone2);
+        edtEmail = findViewById(R.id.edtEmail);
+        edtEndereco = findViewById(R.id.edtEndereco);
+        edtNumero = findViewById(R.id.edtNumero);
+        edtComplemento = findViewById(R.id.edtComplemento);
+        edtCidade = findViewById(R.id.edtCidade);
+        edtUF = findViewById(R.id.edtUF);
+        edtBairro = findViewById(R.id.edtBairro);
+        edtFacebook = findViewById(R.id.edtFacebook);
+        edtInstagram = findViewById(R.id.edtInstagram);
+        edtPinterest = findViewById(R.id.edtPinTerest);
+        edtTamCamiseta = findViewById(R.id.edtTamCamiseta);
+        edtTamCalca = findViewById(R.id.edtTamCalca);
+        edtTamCalcado = findViewById(R.id.edtTamCalcado);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.generos, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnGenero.setAdapter(adapter);
 
-        Button btnVerificar = findViewById(R.id.btnVerificar);
-        btnVerificar.setOnClickListener(new View.OnClickListener() {
+        Button btnSalvar = findViewById(R.id.btnSalvar);
+        btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                long documento = Long.parseLong(edtCPF.getText().toString().replace(".", "").replace("-", "").replace("/", ""));
-                cliente.setDocumento(documento);
-                RecuperaDadosCliente tarefa = new RecuperaDadosCliente();
-                tarefa.execute();
-
+                AtualizaDadosCliente();
             }
         });
 
     }
 
-    private class RecuperaDadosCliente extends AsyncTask<String, Void, Cliente> {
 
-        Cliente mCliente = new Cliente(0, "", 0);
+    private TextWatcher VerificaCPF() {
+
+        return new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (ValidaCPF.ValidaCPF(edtCPF.getText().toString())) {
+                    VerificaDadosCliente();
+                }
+            }
+        };
+    }
+
+    private void VerificaDadosCliente() {
+
+        long documento = Long.parseLong(edtCPF.getText().toString().replace(".", "").replace("-", "").replace("/", ""));
+        cliente.setDocumento(documento);
+        RecuperaDadosCliente tarefa = new RecuperaDadosCliente();
+        tarefa.execute();
+
+    }
+
+    private void AtualizaDadosCliente() {
+        UpsertCliente tarefa = new UpsertCliente();
+        tarefa.execute();
+
+    }
+
+    private class UpsertCliente extends AsyncTask<String, Void, Cliente> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
-            mCliente = cliente;
+            cliente.setNome(edtNome.getText().toString());
+            cliente.setSexo(spnGenero.getSelectedItem().toString());
+
+
+            // todo -- modificar o objeto cliente para receber string e separar a informação em ddd e numero
+            cliente.setCelular(Long.parseLong(edtFone1.getText().toString()));
+            // todo -- modificar o objeto cliente para receber string e separar a informação em ddd e numero
+            cliente.setTelefoneFixo(Long.parseLong(edtFone2.getText().toString()));
+            cliente.setEmail(edtEmail.getText().toString());
+            cliente.setEndereco(edtEndereco.getText().toString());
+            cliente.setNumero(edtNumero.getText().toString());
+            cliente.setComplemento(edtComplemento.getText().toString());
+            cliente.setBairro(edtBairro.getText().toString());
+            cliente.setCidade(edtCidade.getText().toString());
+            cliente.setUF(edtUF.getText().toString());
+            cliente.setFacebook(edtFacebook.getText().toString());
+            cliente.setInstagram(edtInstagram.getText().toString());
+            cliente.setPinterest(edtPinterest.getText().toString());
+            cliente.setTamCamiseta(edtTamCamiseta.getText().toString());
+            cliente.setTamCalca(edtTamCalca.getText().toString());
+            cliente.setTamCalcado(edtTamCalcado.getText().toString());
 
         }
 
@@ -82,37 +170,47 @@ public class CadastroClientesActivity extends AppCompatActivity {
             try {
 
                 Connection DbConn = cs.open();
-                mCliente.BuscaCadastroCliente(DbConn);
+                cliente.UpsertCliente(DbConn);
 
                 cs.close();
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
 
-            return mCliente;
+            return cliente;
         }
 
         @Override
         protected void onPostExecute(Cliente mCliente) {
-            cliente = mCliente;
+        }
+    }
 
-            EditText edtNome = findViewById(R.id.edtNome);
-            Spinner spnGenero = findViewById(R.id.spnGenero);
-            EditText edtFone1 = findViewById(R.id.edtFone1);
-            EditText edtFone2 = findViewById(R.id.edtFone2);
-            EditText edtEmail = findViewById(R.id.edtEmail);
-            EditText edtEndereco = findViewById(R.id.edtEndereco);
-            EditText edtNumero = findViewById(R.id.edtNumero);
-            EditText edtComplemento = findViewById(R.id.edtComplemento);
-            EditText edtCidade = findViewById(R.id.edtCidade);
-            EditText edtUF = findViewById(R.id.edtUF);
-            EditText edtBairro = findViewById(R.id.edtBairro);
-            EditText edtFacebook = findViewById(R.id.edtFacebook);
-            EditText edtInstagram = findViewById(R.id.edtInstagram);
-            EditText edtPinterest = findViewById(R.id.edtPinTerest);
-            EditText edtTamCamiseta = findViewById(R.id.edtTamCamiseta);
-            EditText edtTamCalca = findViewById(R.id.edtTamCalca);
-            EditText edtTamCalcado = findViewById(R.id.edtTamCalcado);
+    private class RecuperaDadosCliente extends AsyncTask<String, Void, Cliente> {
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Cliente doInBackground(String... params) {
+
+            try {
+
+                Connection DbConn = cs.open();
+                cliente.BuscaCadastroCliente(DbConn);
+
+                cs.close();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+
+            return cliente;
+        }
+
+        @Override
+        protected void onPostExecute(Cliente mCliente) {
 
             edtNome.setText(cliente.getNome());
 
